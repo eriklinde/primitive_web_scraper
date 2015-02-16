@@ -27,7 +27,7 @@ If you don't know what `virtualenv` is, please refer to its [documentation](http
     pip install requests
     pip install beautifulsoup4
 
-If any packages are missing from your code, you will have to install them. This may not be a complete list.
+(this may not be a complete list)
 
 ## Test the code in this repository to make sure everything is running properly, by executing the Python script:
 
