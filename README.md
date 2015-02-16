@@ -12,7 +12,7 @@
 
     pip install virtualenv
 
-## Then create a new virtual environment `venv` 
+## Then create a new virtual environment `venv`
 
     virtualenv venv
 
@@ -27,7 +27,7 @@ If you don't know what `virtualenv` is, please refer to its [documentation](http
     pip install requests
     pip install beautifulsoup4
 
-If any packages are missing from your code, you will have to install them. This may not be a complete list. 
+If any packages are missing from your code, you will have to install them. This may not be a complete list.
 
 ## Test the code in this repository to make sure everything is running properly, by executing the Python script:
 
@@ -47,13 +47,13 @@ Its content should reflect the top story on npr.org.
 
 # Build your own scraper
 
-Once you have confirmed that the above is running properly, please review its code carefully. 
+Once you have confirmed that the above is running properly, please review its code carefully.
 
-Then build your own web scraper! Use this code as an example (only), rather than as a **strict** requirement as for how to build / structure your app. You are welcome to use a different name than `primitive_web_scraper`, which I have used throughout the remaining instructions. If you change names, make sure you are consistent---i.e., change names in all locations. 
+Then build your own web scraper! Use this code as an example (only), rather than as a **strict** requirement as for how to build / structure your app. You are welcome to use a different name than `primitive_web_scraper`, which I have used throughout the remaining instructions. If you change names, make sure you are consistent---i.e., change names in all locations.
 
-## Some advice / requirements: 
+## Some advice / requirements:
 
-* Make heavy use of the Python **interpreter** when building your web scraper. You may find that you like [IPython](http://ipython.org/) better than the standard Python interpreter. 
+* Make heavy use of the Python **interpreter** when building your web scraper. You may find that you like [IPython](http://ipython.org/) better than the standard Python interpreter.
 
 * Make heavy use of Git. As discussed in previous classes, whenever you make sweeping changes to your code (or any changes, for that matter), make sure you use a separate branch from your master branch.
 
@@ -61,7 +61,7 @@ Then build your own web scraper! Use this code as an example (only), rather than
 
 * When you program, one strategy is to build / test out small snippets of code in your interpreter, and then copy / paste them into a file as you go. For example, you may start out by just trying to figure out how to make requests using the `requests` library, and the figure out how to parse the request into a tree using Beautifulsoup. Once you master that, you can move on to the next thing, such as figuring out how to zone in on a specific element of the website you are scraping, and actually get its information. Once you are done with this, you may have `10` or so lines of code, not more. Paste that code into a file! Run your file by typing `python file_name.py`, and make sure your code does what you intend it to do.
 
-* Make heavy use of `print()` statements in your code. Print variables and other informational text as you go along. Once you get more advanced, feel free to start using the Python debugger. You may find that you prefer to use IPython's [debugger](https://pypi.python.org/pypi/ipdb) rather than the standard one.  
+* Make heavy use of `print()` statements in your code. Print variables and other informational text as you go along. Once you get more advanced, feel free to start using the Python debugger. You may find that you prefer to use IPython's [debugger](https://pypi.python.org/pypi/ipdb) rather than the standard one.
 
 * When your file starts to get too busy (too many variables, functions, etc.), start to think about structure, with structuring your variables / functions as **classes** being one example. For example, in the code, we created 3 classes, that each contained information relevant to our program. Separating our code into classes made our code easier to read. As you get more advanced, you will probably start to think about structure earlier on, but at this stage, please don't worry too much about it until your code simply becomes too difficult to manage without structure.
 
@@ -69,7 +69,7 @@ Then build your own web scraper! Use this code as an example (only), rather than
 
 # Server side / deployment
 
-Once your code is working **perfectly fine** on your local machine, it's time to deploy it to your server^[A.k.a. putting it into production.]. 
+Once your code is working **perfectly fine** on your local machine, it's time to deploy it to your server, a.k.a. putting it into production.
 
 ## Issue the following commands on your server (replace `erik` with your username)
 
@@ -88,11 +88,11 @@ While editing the `post-receive` file, add the following to the file (once again
 	git --work-tree=/home/erik/primitive_web_scraper --git-dir=/var/repos/primitive_web_scraper.git checkout -f
 
 Save and exit out of the editor, and add `execute` permissions to the `post-receive` file as follows:
- 
+
     chmod +x post-receive
 
 Then go ahead and create a new directory in your home directory of your server:
-    
+
     cd ~
     mkdir primitive_web_scraper
 
