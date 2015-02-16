@@ -109,7 +109,13 @@ Once again on your server; inspect your scraper directory to make sure the files
     cd ~
     cd primitive_web_scraper
 
-This should match with what you have locally. Now go ahead and create a virtual environment on your server in the same way you did on your local machine. Then install the packages needed.
+This should match with what you have locally. Now go ahead and create a virtual environment on your server in the same way you did on your local machine (you will or may have to install the packages below before doing so):
+
+    sudo apt-get install sqlite3
+    sudo apt-get install python-pip
+    sudo pip install virtualenv
+
+
 
 Finally, run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `my_scraper.py`, then type:
 
