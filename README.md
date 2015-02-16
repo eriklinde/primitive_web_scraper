@@ -104,6 +104,13 @@ Then **push** your local code to your server:
 
     git push server master
 
+Once again on your server; inspect your scraper directory to make sure the files are there:
+
+    cd ~
+    cd primitive_web_scraper
+
+This should match with what you have locally. Now go ahead and create a virtual environment on your server in the same way you did on your local machine. Then install the packages needed.
+
 Finally, run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `my_scraper.py`, then type:
 
     python my_scraper.py
