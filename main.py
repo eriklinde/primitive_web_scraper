@@ -1,10 +1,8 @@
-# Our own classes
-#from data_structure import Author
-#from data_structure import Article
+# Import the db connectivity class and the web scraper
 from db_connectivity import DBAccessLayer 
 from scraper import NPRScraper
 
-# The name of the database file
+# Specify the name of the database file
 DB_PATH = 'npr.db'
 
 # Instantiate an NPRScraper object and perform the scraping of NPR
