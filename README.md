@@ -31,7 +31,7 @@ If you don't know what `virtualenv` is, please refer to its [documentation](http
 
 ## Test the code in this repository to make sure everything is running properly, by executing the Python script:
 
-    python scraper.py
+    python main.py
 
 It should scrape the `npr.org` website, create a database named `npr.db` in the current directory, and insert information into it. You may inspect that database by opening it up in SQLite:
 
@@ -117,9 +117,9 @@ This should match with what you have locally. Now go ahead and create a virtual 
 
 
 
-Finally, run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `my_scraper.py`, then type:
+Finally, activate your virtual environment, and run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `main.py`, then type:
 
-    python my_scraper.py
+    python main.py
 
 ## Set up your script to run every our using CRON
 
