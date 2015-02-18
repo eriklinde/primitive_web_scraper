@@ -1,7 +1,8 @@
+"""Structures the information from NPR into classes, which will
+match the way we store them in the database.
+"""
+
 class Author(object):
-    """Structures the information from NPR into classes, which will
-    match the way we store them in the database.
-    """
 
     def __init__(self, id, name):
         self.id = id
