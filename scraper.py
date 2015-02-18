@@ -5,7 +5,6 @@ class NPRScraper(object):
     """
 
     def __init__(self):
-        # This object:
         self.authors = []
         self.article = Article(None, None, None, None, None)
 
@@ -14,15 +13,24 @@ class NPRScraper(object):
         self.scrape_inside_page()
 
     def request_and_parse(self, url):
+        """Fetches a url and parses it into a tree using BeautifulSoup.
+        Suggested improvement would be to wrap this in a 
+        try:
+        except: 
+        block in case the connection fails for some reason.
+        """
         html_source = requests.get(url)
         return BeautifulSoup(html_source.text)
 
     def scrape_front_page(self):
-        """ Fetch the main news page from npr.org.
+        """ Fetch the main news page from npr.org, and store it in 
+        the instance variables.
         """
         parsed_html = self.request_and_parse('http://www.npr.org/sections/news/')
         featured_tag = parsed_html.select('#featured')[0]
-
+        
+        # Searches for any "a" tags inside of any "h1" tags, 
+        # inside of the #featured elements.
         title_tag = featured_tag.find('h1').find('a')
         self.article.title = title_tag.text.strip()
         self.article.url = title_tag['href']
@@ -40,8 +48,14 @@ class NPRScraper(object):
         parsed_html = self.request_and_parse(self.article.url)
         authors = parsed_html.select('#storybyline .nameInner')
         for index, value in enumerate(authors):
+            # Turn each element in the list into an instance of class Author
+            # Note that we will not be setting the first parameter of the object
+            # to anything. We will get this information from the database 
+            # later.  
             authors[index] = Author(None, value.get_text().strip())
 
+        # Find all paragraphs in the text, and concatenate them into one
+        # large paragraph.
         paragraphs = parsed_html.select('#storytext > p')
         concatenated_paragraphs = ''
         for p in paragraphs:
