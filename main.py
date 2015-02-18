@@ -1,14 +1,8 @@
-# Web scraping libraries
-from bs4 import BeautifulSoup
-import requests
-
-# Databases
-import sqlite3
-
 # Our own classes
-from data_structure import Author
-from data_structure import Article
+#from data_structure import Author
+#from data_structure import Article
 from db_connectivity import DBAccessLayer 
+from scraper import NPRScraper
 
 # The name of the database file
 DB_PATH = 'npr.db'

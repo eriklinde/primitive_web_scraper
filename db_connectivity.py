@@ -1,3 +1,7 @@
+import sqlite3
+from data_structure import Author
+from data_structure import Article
+
 class DBAccessLayer(object):
     """Contains specialized methods to deal with connections to an SQLite database, 
     as well as inserting elements into the database. Built to use with the

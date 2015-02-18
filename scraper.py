@@ -1,3 +1,8 @@
+from bs4 import BeautifulSoup
+import requests
+from data_structure import Author
+from data_structure import Article
+
 class NPRScraper(object):
     """This is a simple web scraper that scrapes
     npr.org's main news site. It fetches the content of the main
