@@ -96,9 +96,9 @@ Then go ahead and create a new directory in your home directory of your server:
     cd ~
     mkdir primitive_web_scraper
 
-On your local machine (replace `erik` and the IP address with your own information):
+On your local machine (replace `erik` with your own information and the `xxx` with your server's IP address):
 
-    git remote add server ssh://erik@104.236.225.34/var/repos/primitive_web_scraper.git
+    git remote add server ssh://erik@xxx.xxx.xxx.xx/var/repos/primitive_web_scraper.git
 
 Then **push** your local code to your server:
 
