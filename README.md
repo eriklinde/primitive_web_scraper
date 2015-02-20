@@ -31,7 +31,7 @@ If you don't know what `virtualenv` is, please refer to its [documentation](http
 
 ## Test the code in this repository to make sure everything is running properly, by executing the Python script:
 
-    python main.py
+    python scrape.py
 
 It should scrape the `npr.org` website, create a database named `npr.db` in the current directory, and insert information into it. You may inspect that database by opening it up in SQLite:
 
@@ -117,10 +117,68 @@ This should match with what you have locally. Now go ahead and create a virtual 
 
 
 
-Finally, activate your virtual environment, and run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `main.py`, then type:
+Finally, activate your virtual environment, and run your program on your server to make sure it works, by running your main Python file through the Python interpreter. For example, if your main file's name is `scrape.py`, then type:
 
-    python main.py
+    python scrape.py
 
 ## Set up your script to run every our using CRON
 
-Instructions to come.
+Cron is a tool available by default in nearly all UNIX / Linux distributions. It lets the user run a task, a.k.a. a background job at set intervals. For example, if you wanted your scraper to run automatically every our, Cron would be excellent at the job. 
+
+To make Cron perform a task for you, you will need to add the task as a Cronjob. Let's open up the "Cron job editor" to see how we might do that (this assumes that you are currently on your server):
+
+    crontab -e
+
+The first time you issue this command, Cron will ask you to specify your default editor for when editing Cron jobs. Pick an editor that you feel comfortable with, for example Nano. Let's start out by editing your crontab to say the following:
+
+    * * * * * python scrape.py
+
+This command won't actually work the way it is currently written, but we will tweak it in the lines to follow so that it does. Let's first review the two parts that a Cron command consists of:
+
+1) Schedule ( the `* * * * *`), and
+2) The actual command to run (`python scrape.py`)
+
+The schedule of a Cron command currently consists of 5 consecutive `*`'s. Translated into Cron syntax, this is equivalent to saying that we want our command to run **every minute**. Here is what each of the asterisks symbolize (in order):
+
+* Minute
+* Hour
+* Day of the month
+* Month
+* Day of the week
+
+The most often we can run a cron command is once a minute (`* * * * * `). Think of the `*` to read as the word *every*, so that `* * * * * ` becomes:
+
+    Run on every minute of every hour of every day of every month of every day of the week. 
+
+If we change that to (`5 * * * *`), our schedule will instead read:
+
+    Run on minute #5 of every hour of every day of every month of every day of the week.
+
+In other words, whenever we have a number instead of an asterisk, replace it with syntax similar as to how it was done above. 
+
+How might we then run something every Wednesday at 4.30pm? 
+
+    30 16 * * 3
+
+(note here that 16 is the 24h version of 4pm, and 3 represents Wednesdays). We can read the above as:
+
+    Run on minute #30 of hour #16 of every day of every month of day #3 of the week
+
+For our purposes, it may be suitable to run our scraper every time we suspect the headlines might update, which might be twice an hour. This means that we would, for example, like our scraper to run on minute 0, and minute 30. In that case, we need to separate those two values by a comma (`,`), like so: 
+
+    0,30 * * * * 
+
+The next thing in our command is what to actually **run**. The way our command currently reads is as follows:
+
+     0,30 * * * * python scrape.py
+
+This means that on minute #0 and minute #30 Cron will invoke the command `python scrape.py`. There are two problems with that:
+
+1. Cron won't be using the Virtual Environment we set up previously (and therefore won't have access to our python interpreter, our libraries / packages, etc.)
+2. Cron will be looking for a file named `scrape.py` in the directory from which it was launched, which will **not** be the directory in which your `scrape.py` exists.
+
+To overcome the two problems above, let's modify the Cron script as follows: 
+
+     0,30 * * * * /home/erik/primitive_web_scraper/venv/bin/python /home/erik/primitive_web_scraper/scrape.py
+
+
