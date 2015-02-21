@@ -1,4 +1,4 @@
-from db_connectivity import DBAccessLayer 
+from db_connectivity import DBAccessLayer
 from flask import render_template
 import sqlite3
 from flask import Flask
