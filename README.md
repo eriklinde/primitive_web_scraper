@@ -5,7 +5,6 @@
 ## Clone this repository
 
     git clone https://github.com/eriklinde/primitive_web_scraper.git
-    mkdir primitive_web_scraper
     cd primitive_web_scraper
 
 ## Install Python Virtual Environment
@@ -121,7 +120,7 @@ Finally, activate your virtual environment, and run your program on your server 
 
     python scrape.py
 
-## Set up your script to run every our using CRON
+## Set up your script to run every hour using CRON
 
 Cron is a tool available by default in nearly all UNIX / Linux distributions. It lets the user run a task, a.k.a. a background job at set intervals. For example, if you wanted your scraper to run automatically every our, Cron would be excellent at the job. 
 
@@ -181,4 +180,8 @@ To overcome the two problems above, let's modify the Cron script as follows:
 
      0,30 * * * * /home/erik/primitive_web_scraper/venv/bin/python /home/erik/primitive_web_scraper/scrape.py
 
+Exit out of the Cron editor, and sit back and wait---Cron will now run your program every half hour. Note that we are instructing Cron to run our program using the Python interpreter located in our Virtual Environment directory (i.e. `venv/bin/python`).
 
+# Setting up a Flask web server
+
+Note: this will only be an extremely brief tutorial to Flask, a lightweight web framework. 

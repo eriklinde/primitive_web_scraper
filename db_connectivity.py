@@ -28,7 +28,16 @@ class DBAccessLayer(object):
         self.connection.execute("CREATE TABLE IF NOT EXISTS authors(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE)")
         self.connection.execute("CREATE TABLE IF NOT EXISTS articles(id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, url TEXT NOT NULL UNIQUE, teaser TEXT NOT NULL, paragraphs TEXT NOT NULL)")
         self.connection.execute("CREATE TABLE IF NOT EXISTS works(id INTEGER PRIMARY KEY NOT NULL, author_id INTEGER NOT NULL, article_id INTEGER NOT NULL, FOREIGN KEY (author_id) REFERENCES authors(id), FOREIGN KEY (article_id) REFERENCES articles(id), UNIQUE (author_id, article_id))")
+    
+    def get_all_articles(self):
+        return self.connection.execute("SELECT * FROM articles").fetchall()
 
+    def get_authors_for_article_id(self, id):
+        authors = []
+        for author in self.connection.execute("SELECT a.name FROM works AS w JOIN authors AS a ON a.id = w.author_id WHERE w.article_id = ?", (id, )).fetchall():
+            authors.append(author['name'])
+        return authors    
+    
     def insert_authors_and_article(self, authors, article):
         try:
             cursor = self.connection.cursor()
