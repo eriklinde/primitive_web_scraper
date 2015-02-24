@@ -251,9 +251,11 @@ If you see the expected output, that means that your web server is correctly con
 
 Start up your uWSGI server by issuing the following command, which will take your file name as an input, as well as your `app` object. 
 
-    venv/bin/uwsgi --socket 127.0.0.1:3031 --wsgi-file web.py --callable app
+    venv/bin/uwsgi --socket 127.0.0.1:3031 --wsgi-file web.py --callable app --daemonize=/var/log/uwsgi/scraper.log
 
 We are starting our uWSGI server on address `127.0.0.1` (also known as *localhost*, which is the address your computer accesses itself) and on port `3031`---you could have selected any port above `1024`. An important difference between running a server on address `0.0.0.0` and `127.0.0.1` is that the latter doesn't allow outside access, whereas the former does. This is the reason why we were able to access our website from our development machines on `http://104.236.225.34:5000` as we were running it on `0.0.0.0`.
+
+Further, we are *daemonizing* it, i.e. allowing it to run even as we terminate our remote Linux session. We are instructing uWSGI to write a log file to the `/var/log/uwsgi` directory, so make sure you create that directory using the `mkdir` command, and setting the permissions of that directory to `757` so that uWSGI can write to it. The log will contain useful information if we ever need to trouble shoot our app. 
 
 At this point, uWSGI is ready to receive traffic from NGINX. Let's update our `nginx.conf` file to read as follows: 
 
