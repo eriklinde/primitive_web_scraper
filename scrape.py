@@ -13,8 +13,10 @@ scraper.scrape()
 
 # Insert the information from the Scraper object into the database
 # Start by creating a new instance of DBAccessLayer
-access = DBAccessLayer(DB_PATH)
-access = DBAccessLayer(os.path.dirname(os.path.realpath(__file__)) + "/" + DB_PATH)
+full_db_path = os.path.dirname(os.path.realpath(__file__)) + "/" + DB_PATH
+print("Database path:")
+print(full_db_path) 
+access = DBAccessLayer(full_db_path)
 
 # This creates the tables. If the database already exists, nothing happens.
 access.create_tables()
