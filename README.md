@@ -184,4 +184,95 @@ Exit out of the Cron editor, and sit back and wait---Cron will now run your prog
 
 # Setting up a Flask web server
 
-Note: this will only be an extremely brief tutorial to Flask, a lightweight web framework. 
+Note: this will be an extremely brief tutorial to Flask, a lightweight web framework. 
+
+# Deploying your app on your server
+
+## Upgrade to Python 3.4.1
+
+On your server:
+
+    sudo apt-get install libssl-dev openssl
+    sudo apt-get install build-essential
+    sudo apt-get install python3-dev
+    sudo apt-get install libsqlite3-dev
+
+    whttps://www.python.org/ftp/python/3.4.1/Python-3.4.1.tgz
+    tar -xvf Python-3.4.1.tgz
+    cd Python-3.4.1/
+    ./configure
+    make
+    sudo make install
+
+Delete any existing virtual environments:
+
+    cd ~/primitive_web_scraper
+    rm -rf venv/
+
+Make sure that your python3.4 binary has been updated to 3.4.1:
+
+    python3.4
+
+(make sure that it indeed says 3.4.1 as you run your interpreter, then exit out of the interpreter by typing `exit()`!)
+
+Create a new virtual environment: 
+
+    virtualenv venv
+    source venv/bin/activate
+
+    pip install flask
+    pip install uwsgi
+    pip install requests
+    pip install beautifulsoup4
+
+    which uwsgi
+
+(your `uwsgi` binary should point to the uWSGI in your venv directory)
+
+Test your web application / web server by running it as follows:
+
+    python web.py
+
+This should start up a new server that listens on the address / port indicated below: 
+
+    Running on http://0.0.0.0:5000/ (Press CTRL+C to quit) 
+
+Make sure your `app.run()` command inside of `web.py` looks like this:
+
+    app.run(debug=True, host='0.0.0.0')
+
+From your laptop's browser, visit your server's IP address followed by the port `5000` as follows (remember to replace the IP address with your own information):
+
+    http://104.236.225.34:5000/
+
+If you see the expected output, that means that your web server is correctly connecting to the database and displaying the right information. It's then time to set set up **uWSGI** and **NGINX**, and let them take over, as the built-in web server we have been using for development so far is not suitable for any meaningful amounts of traffic.
+
+Start up your uWSGI server by issuing the following command, which will take your file name as an input, as well as your `app` object. 
+
+    venv/bin/uwsgi --socket 127.0.0.1:3031 --wsgi-file web.py --callable app
+
+We are starting our uWSGI server on address `127.0.0.1` (also known as *localhost*, which is the address your computer accesses itself) and on port `3031`---you could have selected any port above `1024`. An important difference between running a server on address `0.0.0.0` and `127.0.0.1` is that the latter doesn't allow outside access, whereas the former does. This is the reason why we were able to access our website from our development machines on `http://104.236.225.34:5000` as we were running it on `0.0.0.0`.
+
+At this point, uWSGI is ready to receive traffic from NGINX. Let's update our `nginx.conf` file to read as follows: 
+
+    events {}
+    http {
+        server {
+            location / {
+                uwsgi_pass 127.0.0.1:3031;
+                include uwsgi_params;
+            }
+        }
+    }
+
+We are here simply telling NGINX to pass on all incoming traffic to `127.0.0.1:3031`, which is where our uWSGI server (which serves as the interface between our Flask app and NGINX) is listening. 
+
+Test your NGINX setup using 
+
+    sudo nginx -t
+
+, and provided it is working, reload your settings using
+
+    sudo service nginx reload
+
+Your server should now be working!
