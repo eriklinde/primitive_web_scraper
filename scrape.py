@@ -1,6 +1,7 @@
 # Import the db connectivity class and the web scraper
 from db_connectivity import DBAccessLayer 
 from scraper import NPRScraper
+import os
 
 # Specify the name of the database file
 DB_PATH = 'npr.db'
@@ -13,6 +14,7 @@ scraper.scrape()
 # Insert the information from the Scraper object into the database
 # Start by creating a new instance of DBAccessLayer
 access = DBAccessLayer(DB_PATH)
+access = DBAccessLayer(os.path.dirname(os.path.realpath(__file__)) + "/" + DB_PATH)
 
 # This creates the tables. If the database already exists, nothing happens.
 access.create_tables()
