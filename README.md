@@ -190,6 +190,8 @@ Note: this will be an extremely brief tutorial to Flask, a lightweight web frame
 
 ## Upgrade to Python 3.4.1
 
+(I couldn't get uWSGI to work with Python 3.4.0)
+
 On your server:
 
     sudo apt-get install libssl-dev openssl
@@ -197,19 +199,19 @@ On your server:
     sudo apt-get install python3-dev
     sudo apt-get install libsqlite3-dev
 
-    whttps://www.python.org/ftp/python/3.4.1/Python-3.4.1.tgz
+    wget https://www.python.org/ftp/python/3.4.1/Python-3.4.1.tgz
     tar -xvf Python-3.4.1.tgz
     cd Python-3.4.1/
     ./configure
     make
     sudo make install
 
-Delete any existing virtual environments:
+Delete any existing virtual environments (we will create a new one using the Python 3.4.1 installation):
 
     cd ~/primitive_web_scraper
     rm -rf venv/
 
-Make sure that your python3.4 binary has been updated to 3.4.1:
+Make sure that your python3.4 binary has been updated to 3.4.1 by running it and noting the version number:
 
     python3.4
 
