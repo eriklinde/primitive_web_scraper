@@ -182,6 +182,25 @@ To overcome the two problems above, let's modify the Cron script as follows:
 
 Exit out of the Cron editor, and sit back and wait---Cron will now run your program every half hour. Note that we are instructing Cron to run our program using the Python interpreter located in our Virtual Environment directory (i.e. `venv/bin/python`).
 
+Check back to make sure that indeed Cron is doing its job. I found that while my Cron jobs seemed to run, my database wasn't updating, so let's troubleshoot that. Just like when you run a program and it creates output for you (for example, in the form of error messages in case something goes wrong, or debugging statements you may have inserted as `print()` statements inside your code), you can log the output from all Cron jobs and then inspect those logs to decipher what is going on. Let's therefore modify our Cron jobs to collect any and all output to a logfile. Modify the command above to read as follows: 
+
+     0,30 * * * * /home/erik/primitive_web_scraper/venv/bin/python /home/erik/primitive_web_scraper/scrape.py >> /home/erik/primitive_web_scraper/cron_log.txt 2>&1
+
+Then, let's inspect the cron log `cron_log.txt`, where we find the following: 
+
+    ***ERROR*** something went wrong:
+    attempt to write a readonly database
+
+Looks like our database might be read-only---let's inspect its permissions:
+
+    -rw-r--r--  1 root root 3072 Feb 23 23:40 npr.db
+
+Let's change ownership of the database as follows:
+
+    sudo chown erik:erik npr.db
+
+That then takes care of our problem. Note that you may or may not have run into this problem on your own. 
+
 # Setting up a Flask web server
 
 Note: this will be an extremely brief tutorial to Flask, a lightweight web framework. 
